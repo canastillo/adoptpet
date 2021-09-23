@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Solicitud = mongoose.model('Solicitud')
 
-function crearSolicitud(req, res) {
+function crearSolicitud(req, res, next) {
     let solicitud = new Solicitud(req.body);
 
     solicitud.save().then(document => {
@@ -9,7 +9,7 @@ function crearSolicitud(req, res) {
     }).catch(next)
 }
 
-function obtenerSolicitud(req, res) {
+function obtenerSolicitud(req, res, next) {
     if (req.params.id) {
         Solicitud.findById(req.params.id)
         .then(doc => {res.send(doc)})
@@ -21,7 +21,7 @@ function obtenerSolicitud(req, res) {
     }
 }
 
-function modificarSolicitud(req, res) {
+function modificarSolicitud(req, res, next) {
     Solicitud.findById(req.params.id)
     .then(solicitud => {
         if(!solicitud) { return res.sendStatus(404) }
@@ -41,7 +41,7 @@ function modificarSolicitud(req, res) {
     .catch(next)
 }
 
-function eliminarSolicitud(req, res) {
+function eliminarSolicitud(req, res, next) {
     Solicitud.findOneAndDelete({_id: req.params.id})
     .then(r => {res.status(200).send("La solicitud se eliminó se eliminó.")})
     .catch(next)

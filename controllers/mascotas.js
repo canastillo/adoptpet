@@ -9,7 +9,7 @@ function crearMascota(req, res, next) {
     }).catch(next)
 }
 
-function obtenerMascota(req, res) {
+function obtenerMascota(req, res, next) {
     if (req.params.id) {
         Mascota.findById(req.params.id)
         .then(doc => {res.send(doc)})
@@ -21,7 +21,7 @@ function obtenerMascota(req, res) {
     }
 }
 
-function modificarMascota(req, res) {
+function modificarMascota(req, res, next) {
     Mascota.findById(req.params.id)
     .then(mascota => {
         // Si no encuentra la mascota, no lo capta como un error (porque la búsqueda fue correcta)
@@ -51,7 +51,7 @@ function modificarMascota(req, res) {
     .catch(next)
 }
 
-function eliminarMascota(req, res) {
+function eliminarMascota(req, res, next) {
     Mascota.findOneAndDelete({_id: req.params.id})
     .then(r => {res.status(200).send("La mascota se eliminó.")})
     .catch(next)

@@ -20,7 +20,7 @@ function obtenerUsuario(req, res, next) {
     // Esta función requiere autenticación, por lo que
     // sí o sí, hay un usuario del que podemos obtener información
     Usuario.findById(req.usuario.id)
-        .then( u => {
+        .then( user => {
             // No encontramos usuario, por lo que no hay nada que mandar, 
             // pero al ser este método un GET, sí o sí espera una respuesta, 
             // así que con sendStatus evitamos devolver una respuesta vacía 
@@ -88,7 +88,8 @@ function iniciarSesion(req, res, next) {
             if (err) { return next(err) }
 
             if (user) { // Esto no es un usuario de la BD, es un usuario de passport (no modifica la BD)
-                user.token = user.generateJWT(); // Cada que generamos un token nuevo, caduca el anterior (?)
+                console.log("Voy a generar el JWT");
+                user.token = user.generarJWT(); // Cada que generamos un token nuevo, caduca el anterior (?)
             } else {
                 return res.status(422).json(info)
             }

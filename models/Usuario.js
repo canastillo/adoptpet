@@ -10,7 +10,7 @@ const UsuarioSchema = new mongoose.Schema({
         unique: true,
         required: [true, "El campo username no puede estar vacío"],
         lowercase: true,
-        match: /^[a-z0-9]+$/i
+        match: [/^[a-z0-9]+$/i, "Username inválido"]
     },
     nombre: {
         type: String,
@@ -69,10 +69,11 @@ UsuarioSchema.methods.generarJWT = function() {
     exp.setDate(today.getDate() + 60) // El token expira en 60 días
 
     // Acá se genera la cadena alfanumérica que es el token
+    console.log("Sólo falta firmarlo");
     return jwt.sign({
         id: this._id, // El campo lleva _ porque así lo guarda Mongo en la BD
         username: this.username,
-        exp: parseInt(exp.getTime / 1000)
+        exp: parseInt(exp.getTime() / 1000)
     }, secret)
 }
 
