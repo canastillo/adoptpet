@@ -19,6 +19,11 @@ mongoose.connect(
 
 mongoose.set("debug", true)
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 // Los modelos deben estar importados antes que passport, porque en passport importamos Usuario
 require('./models/Usuario')
 require('./models/Mascota')

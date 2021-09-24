@@ -1,0 +1,209 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Adopt A Pet API",
+    "description": "API para un servicio de adopción de mascotas.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api-adoptpet.herokuapp.com/v1/usuarios"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Usuarios",
+      "description": "Endpoint para manejar la información relacionada a usuarios e inicio de sesión."
+    }
+  ],
+  "paths": {
+    "/": {
+      "post": {
+        "tags": [
+          "Usuarios"
+        ],
+        "summary": "Crea un nuevo usuario en la base de datos.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BodyUsuariosPost"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "(OK) El usuario fue creado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExitoUsuariosPost"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/{id}": {
+      "get": {
+        "tags": [
+          "Usuarios"
+        ],
+        "summary": "Obtener los datos del usuario loggeado",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/token"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del usuario",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(OK) Datos de usuario encontrados exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExitoUsuariosGet"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "Unauthorized": {
+        "description": "(Unauthorized) No tiene autorización para consultar el servicio"
+      },
+      "NotFound": {
+        "description": "(NotFound) Recurso no encontrado"
+      },
+      "BadRequest": {
+        "description": "(BadRequest) La petición no se ha hecho correctamente"
+      },
+      "ServerError": {
+        "description": "(ServerError) Error en el servidor"
+      }
+    },
+    "parameters": {
+      "token": {
+        "name": "token",
+        "in": "header",
+        "description": "Token de auteticación",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "schemas": {
+      "BodyUsuariosPost": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "Nombre de usuario."
+          },
+          "nombre": {
+            "type": "string",
+            "description": "Nombre del usuario."
+          },
+          "apellido": {
+            "type": "string",
+            "description": "Apellido del usuario."
+          },
+          "email": {
+            "type": "string",
+            "description": "Correo electrónico del usuario."
+          },
+          "password": {
+            "type": "string",
+            "description": "Contraseña del usuario."
+          }
+        }
+      },
+      "ExitoUsuariosPost": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "Nombre de usuario."
+          },
+          "nombre": {
+            "type": "string",
+            "description": "Nombre del usuario."
+          },
+          "apellido": {
+            "type": "string",
+            "description": "Apellido del usuario."
+          },
+          "email": {
+            "type": "string",
+            "description": "Correo electrónico del usuario."
+          },
+          "token": {
+            "type": "string",
+            "description": "Token de autenticación del usuario."
+          }
+        }
+      },
+      "ExitoUsuariosGet": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "Nombre de usuario."
+          },
+          "nombre": {
+            "type": "string",
+            "description": "Nombre del usuario."
+          },
+          "apellido": {
+            "type": "string",
+            "description": "Apellido del usuario."
+          },
+          "email": {
+            "type": "string",
+            "description": "Correo electrónico del usuario."
+          }
+        }
+      }
+    }
+  }
+}
